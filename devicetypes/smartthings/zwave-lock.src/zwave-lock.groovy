@@ -14,7 +14,7 @@
  *
  */
 metadata {
-	definition (name: "Z-Wave Lock", namespace: "smartthings", author: "SmartThings") {
+	definition (name: "Z-Wave Lock", namespace: "smartthings", author: "SmartThings", runLocally: false, minHubCoreVersion: '000.017.0012', executeCommandsLocally: false) {
 		capability "Actuator"
 		capability "Lock"
 		capability "Polling"
@@ -44,10 +44,10 @@ metadata {
 		// Yale
 		fingerprint mfr:"0129", prod:"0002", model:"0800", deviceJoinName: "Yale Touchscreen Deadbolt Door Lock" // YRD120
 		fingerprint mfr:"0129", prod:"0002", model:"0000", deviceJoinName: "Yale Touchscreen Deadbolt Door Lock" // YRD220, YRD240
-		fingerprint mfr:"0129", prod:"0002", model:"FFFF", deviceJoinName: "Yale Touchscreen Lever Door Lock" // YRD220
+		fingerprint mfr:"0129", prod:"0002", model:"FFFF", deviceJoinName: "Yale Touchscreen Lever Door Lock" // YRL220
 		fingerprint mfr:"0129", prod:"0004", model:"0800", deviceJoinName: "Yale Push Button Deadbolt Door Lock" // YRD110
 		fingerprint mfr:"0129", prod:"0004", model:"0000", deviceJoinName: "Yale Push Button Deadbolt Door Lock" // YRD210
-		fingerprint mfr:"0129", prod:"0001", model:"0000", deviceJoinName: "Yale Push Button Lever Door Lock" // YRD210
+		fingerprint mfr:"0129", prod:"0001", model:"0000", deviceJoinName: "Yale Push Button Lever Door Lock" // YRL210
 		fingerprint mfr:"0129", prod:"8002", model:"0600", deviceJoinName: "Yale Assure Lock" //YRD416, YRD426, YRD446
 		fingerprint mfr:"0129", prod:"0007", model:"0001", deviceJoinName: "Yale Keyless Connected Smart Door Lock"
 		fingerprint mfr:"0129", prod:"8004", model:"0600", deviceJoinName: "Yale Assure Lock Push Button Deadbolt" //YRD216
@@ -138,7 +138,7 @@ def updated() {
 			if (!state.fw) {
 				cmds << zwave.versionV1.versionGet().format()
 			}
-			hubAction = response(delayBetween(cmds, 4200))
+			hubAction = response(delayBetween(cmds, 30*1000))
 		}
 	} catch (e) {
 		log.warn "updated() threw $e"
@@ -406,6 +406,7 @@ private def handleAccessAlarmReport(cmd) {
 			} else {
 				// locked by pressing the Schlage button
 				map.descriptionText = "Locked manually"
+				map.data = [ method: "keypad" ]
 			}
 			break
 		case 6: // Unlocked with keypad
