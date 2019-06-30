@@ -18,7 +18,7 @@ metadata {
 		capability "Switch"
 		capability "Actuator"
 		capability "Sensor"
-		capability "Refresh"
+        capability "Refresh"
 	}
 
 	tiles {
@@ -30,9 +30,9 @@ metadata {
 				attributeState "turningOff", label:'${name}', action:"switch.on", icon:"st.switches.switch.off", backgroundColor:"#ffffff", nextState:"turningOn"
 			}
 		}
-		standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-			state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
-		}
+        standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+		    state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
+        }
 	}
 }
 
