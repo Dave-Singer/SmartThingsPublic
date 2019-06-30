@@ -107,7 +107,7 @@ private flashLights() {
 	def doFlash = true
 	def onFor = onFor ?: 1000
 	def offFor = offFor ?: 1000
-	def numFlashes = numFlashes ?: 3
+	def numFlashes = numFlashes ?: 5
 
 	log.debug "LAST ACTIVATED IS: ${state.lastActivated}"
 	if (state.lastActivated) {
@@ -147,4 +147,3 @@ private flashLights() {
 		}
 	}
 }
-
